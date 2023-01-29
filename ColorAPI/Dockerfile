@@ -24,6 +24,7 @@ WORKDIR /app
 
 # Specifying listening port for http and https
 EXPOSE 80
+EXPOSE 81
 
 # Copying app/out folder in build-env image to to current directory(/app)
 COPY --from=build-env /app/out .

@@ -29,6 +29,7 @@ services:
      ASPNETCORE_Kestrel__Certificates__Default__Path: /https/aspnetapp.pfx
     ports:
       - "2022:80"
+      - "2021:81"
     networks:
      - colour-network 
     volumes:
