@@ -1,0 +1,35 @@
+﻿version: '3'
+
+networks:
+  colour-network:
+    driver: bridge 
+
+services:
+  posgresql_image:
+    container_name: colour_postgresql_container
+    image: postgres:latest
+    environment:
+     POSTGRES_PASSWORD: "root"
+     POSTGRES_USER: "postgres"
+    ports:
+     - "2023:5432"
+    restart: always
+    networks:
+     - colour-network 
+
+  colour-api:
+    depends_on:
+      - "posgresql_image"
+    build: .
+    environment:
+     DB_CONNECTION_STRING: "server=colour_postgresql_container;port=5432;database=ColourDb;username=postgres;password=root"
+     MigrateDatabase: true
+     ASPNETCORE_ENVIRONMENT: "Development"
+     ASPNETCORE_Kestrel__Certificates__Default__Password: password
+     ASPNETCORE_Kestrel__Certificates__Default__Path: /https/aspnetapp.pfx
+    ports:
+      - "2022:80"
+    networks:
+     - colour-network 
+    volumes:
+      - ~/.aspnet/https:/https:ro
